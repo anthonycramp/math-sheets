@@ -1,3 +1,6 @@
+use math_sheets::*;
+
 fn main() {
-    println!("Hello, world!");
+    println!("{}", greeting("Yasmin"));
+    println!("{}", get_operand(9,10));
 }
