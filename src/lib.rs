@@ -70,6 +70,12 @@ mod tests {
 
     #[test]
     fn test_create_addition_equation() {
+        let min_operand = 2;
+        let target_sum = 15;
 
+        let eq = create_addition_equation(min_operand, target_sum);
+        assert!(1 <= eq.first_operand && eq.first_operand <= 9);
+        assert!(1 <= eq.second_operand && eq.second_operand <= 9);
+        assert!(target_sum == eq.first_operand + eq.second_operand);
     }
 }
