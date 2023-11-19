@@ -30,7 +30,7 @@ fn main() {
     </head>
     <body>"#
     );
-    let addition_list = create_addition_list(25, 3, 18);
+    let addition_list = create_addition_list(20, 3, 18);
     for addition_equation in addition_list {
         println!(
             r#"<div class="equation"><span class="operand">{}</span><span class="operator">{}</span><span class="operand">{}</span><span class="equal-sign">=</span><span class="answer">&emsp;&emsp;</span></div>"#,
