@@ -69,15 +69,14 @@ pub fn create_addition_equation(min_operand: i32, target_sum: i32) -> Equation {
 
 pub fn create_addition_list(number_of_entries: i32, min_sum: i32, max_sum: i32) -> Vec<Equation> {
     let mut addition_list = vec![];
-    let mut equation_count = 0.0;
+    let mut equation_count = 1.0;
     let equation_increment = number_of_entries as f64 / (max_sum - min_sum + 1) as f64;
 
     for perfect_sum in min_sum..=max_sum {
         equation_count += equation_increment;
+        let target_sum_between = Uniform::try_from((perfect_sum - 2)..=(perfect_sum + 2)).unwrap();
+        let mut rng = rand::thread_rng();
         while equation_count > 1.0 {
-            let target_sum_between =
-                Uniform::try_from((perfect_sum - 1)..=(perfect_sum + 1)).unwrap();
-            let mut rng = rand::thread_rng();
             let mut target_sum = target_sum_between.sample(&mut rng);
             if target_sum < min_sum {
                 target_sum = min_sum
