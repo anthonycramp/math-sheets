@@ -1,3 +1,4 @@
+use rand::distributions::{Distribution, Uniform};
 use rand::prelude::*;
 use std::fmt;
 
@@ -10,18 +11,24 @@ pub fn get_operand(min: i32, max: i32) -> i32 {
     rng.gen_range(min..=max)
 }
 
+#[derive(PartialEq)]
 pub enum Operator {
     Addition,
 }
 
 impl fmt::Display for Operator {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", match self {
-            Operator::Addition => "+",
-        })
+        write!(
+            f,
+            "{}",
+            match self {
+                Operator::Addition => "+",
+            }
+        )
     }
 }
 
+#[derive(PartialEq)]
 pub struct Equation {
     pub first_operand: i32,
     pub second_operand: i32,
@@ -40,7 +47,11 @@ impl Equation {
 
 impl fmt::Display for Equation {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{} {} {} =", self.first_operand, self.operator, self.second_operand)
+        write!(
+            f,
+            "{} {} {} =",
+            self.first_operand, self.operator, self.second_operand
+        )
     }
 }
 
@@ -57,9 +68,29 @@ pub fn create_addition_equation(min_operand: i32, target_sum: i32) -> Equation {
 }
 
 pub fn create_addition_list(number_of_entries: i32, min_sum: i32, max_sum: i32) -> Vec<Equation> {
-    let mut addition_list = vec![]; 
-    for target_sum in min_sum..=max_sum {
-        addition_list.push(create_addition_equation(2, target_sum));
+    let mut addition_list = vec![];
+    let mut equation_count = 0.0;
+    let equation_increment = number_of_entries as f64 / (max_sum - min_sum + 1) as f64;
+
+    for perfect_sum in min_sum..=max_sum {
+        equation_count += equation_increment;
+        while equation_count > 1.0 {
+            let target_sum_between =
+                Uniform::try_from((perfect_sum - 1)..=(perfect_sum + 1)).unwrap();
+            let mut rng = rand::thread_rng();
+            let mut target_sum = target_sum_between.sample(&mut rng);
+            if target_sum < min_sum {
+                target_sum = min_sum
+            } else if target_sum > max_sum {
+                target_sum = max_sum
+            }
+
+            let addition_equation = create_addition_equation(2, target_sum);
+            if !addition_list.contains(&addition_equation) {
+                addition_list.push(addition_equation);
+                equation_count -= 1.0;
+            }
+        }
     }
     addition_list
 }
