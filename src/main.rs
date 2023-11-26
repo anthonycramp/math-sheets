@@ -12,6 +12,9 @@ fn main() {
         display: grid;
         gap: 10px;
     }}
+    .additions {{
+
+    }}
     .equation {{
         display: flex;
     }}
@@ -33,6 +36,7 @@ fn main() {
     <div class="equations">"#
     );
     let addition_list = create_addition_list(20, 3, 18);
+    println!(r#"<div class="additions">"#);
     for addition_equation in addition_list {
         println!(
             r#"<div class="equation"><span class="operand-one">{}</span><span class="operator">{}</span><span class="operand-two">{}</span><span class="equal-sign">=</span><span class="answer">&emsp;&emsp;</span></div>"#,
@@ -41,5 +45,19 @@ fn main() {
             addition_equation.second_operand,
         );
     }
+    println!(r#"</div>"#);
+
+    let subtraction_list = create_subtraction_list(20, 3, 18);
+    println!(r#"<div class="subtractions">"#);
+    for subtraction_equation in subtraction_list {
+        println!(
+            r#"<div class="equation"><span class="operand-one">{}</span><span class="operator">{}</span><span class="operand-two">{}</span><span class="equal-sign">=</span><span class="answer">&emsp;&emsp;</span></div>"#,
+            subtraction_equation.first_operand,
+            subtraction_equation.operator,
+            subtraction_equation.second_operand,
+        )
+    }
+    println!(r#"</div>"#);
+
     println!("</div></body></html>")
 }

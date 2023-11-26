@@ -14,6 +14,7 @@ pub fn get_operand(min: i32, max: i32) -> i32 {
 #[derive(PartialEq)]
 pub enum Operator {
     Addition,
+    Subtraction,
 }
 
 impl fmt::Display for Operator {
@@ -23,6 +24,7 @@ impl fmt::Display for Operator {
             "{}",
             match self {
                 Operator::Addition => "+",
+                Operator::Subtraction => "-",
             }
         )
     }
@@ -92,6 +94,24 @@ pub fn create_addition_list(number_of_entries: i32, min_sum: i32, max_sum: i32) 
         }
     }
     addition_list
+}
+
+pub fn create_subtraction_list(
+    number_of_entries: i32,
+    min_sum: i32,
+    max_sum: i32,
+) -> Vec<Equation> {
+    let addition_list = create_addition_list(number_of_entries, min_sum, max_sum);
+    addition_list
+        .iter()
+        .map(|eq| {
+            Equation::new(
+                eq.first_operand + eq.second_operand,
+                eq.first_operand,
+                Operator::Subtraction,
+            )
+        })
+        .collect()
 }
 
 #[cfg(test)]
