@@ -10,10 +10,18 @@ fn main() {
     }}
     .equations {{
         display: grid;
+        grid-template-columns: auto auto;
         gap: 10px;
     }}
     .additions {{
-
+        grid-column: 1;
+        display: grid;
+        gap: 5px;
+    }}
+    .subtractions {{
+        grid-column: 2;
+        display: grid;
+        gap: 5px;
     }}
     .equation {{
         display: flex;
